@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Owner;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreOwnerRequest;
+use App\Http\Requests\UpdateOwnerRequest;
 
 class OwnerController extends Controller
 {
@@ -12,7 +14,8 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        //
+        $owners = Owner::latest()->paginate(10);
+        return view('owners.index', compact('owners'));
     }
 
     /**
@@ -20,7 +23,7 @@ class OwnerController extends Controller
      */
     public function create()
     {
-        //
+        return view('owners.create');
     }
 
     /**
@@ -28,7 +31,9 @@ class OwnerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validation a deja été effectuée automatiquement pa la fromrequest !
+        Owner::create($request->validated());
+        return redirect()->route('owner.index')->with('success', 'Proprietaire crée avec succès.');
     }
 
     /**
@@ -44,15 +49,16 @@ class OwnerController extends Controller
      */
     public function edit(Owner $owner)
     {
-        //
+        return view('owners.edit', compact('owner'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Owner $owner)
+    public function update(UpdateOwnerRequest $request, Owner $owner)
     {
-        //
+        $owner->update($request->validated());
+        return redirect()->route('owners.index')->with('success', 'Proprietaire mis à jour avec succès.');
     }
 
     /**
@@ -60,6 +66,7 @@ class OwnerController extends Controller
      */
     public function destroy(Owner $owner)
     {
-        //
+        $owner->delete();
+        return redirect()->route('owners.index')->with('succes', 'Propriétaire supprimée avec succès.');
     }
 }
