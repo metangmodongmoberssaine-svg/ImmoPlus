@@ -3,23 +3,45 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Owner;
+use App\Models\Property;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Créer un utilisateur Admin
+        User::create([
+            'name' => 'berssainetest',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Créer un propriétaire
+        $owner = Owner::create([
+            'first_name' => 'jean',
+            'last_name' => 'Dongmo',
+            'email' => 'jean@gmail.com',
+            'phone' => '+237676144495',
+            'address' => 'Douala, Cameroun',
+        ]);
+
+        // Créer un bien immobilier
+        Property::create([
+            'owner_id' => $owner->id,
+            'title' => 'Villa Moderne Akwa',
+            'description' => 'Superbe villa avec jardin et piscine.',
+            'type' => 'Villa',
+            'price' => 350000,
+            'address' => 'Rue Joffre',
+            'city' => 'Douala',
+            'bedrooms' => 4,
+            'bathrooms' => 3,
+            'area' => 250,
+            'status' => 'available',
         ]);
     }
 }

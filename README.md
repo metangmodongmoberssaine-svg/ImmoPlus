@@ -22,3 +22,8 @@ ImmoPlus est une application web conçue avec Laravel permettant de gérer des b
 4. Générer la clé d'application : `php artisan key:generate`
 5. Lancer les migrations : `php artisan migrate`
 6. Lancer le serveur local : `php artisan serve`
+
+## 🧪 Données de test (Seeding)
+Pour alimenter la base de données avec des comptes et biens de démonstration :
+```bash
+php artisan db:seed
