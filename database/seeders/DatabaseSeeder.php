@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Créer un utilisateur Admin
+        // 1. Utilisateur Admin
         User::create([
             'name' => 'berssainetest',
             'email' => 'admin@gmail.com',
@@ -20,7 +20,15 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        // Créer un propriétaire
+        // 2. Utilisateur Locataire (Indispensable pour tester les réservations)
+        User::create([
+            'name' => 'Alice Locataire',
+            'email' => 'locataire@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'locataire',
+        ]);
+
+        // 3. Propriétaire
         $owner = Owner::create([
             'first_name' => 'jean',
             'last_name' => 'Dongmo',
@@ -29,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'address' => 'Douala, Cameroun',
         ]);
 
-        // Créer un bien immobilier
+        // 4. Bien immobilier N°1 (Validé / Disponible)
         Property::create([
             'owner_id' => $owner->id,
             'title' => 'Villa Moderne Akwa',
@@ -41,7 +49,22 @@ class DatabaseSeeder extends Seeder
             'bedrooms' => 4,
             'bathrooms' => 3,
             'area' => 250,
-            'status' => 'available',
+            'status' => 'available', // Visible sur la vitrine
+        ]);
+
+        // 5. Bien immobilier N°2 (En attente - Pour tester la validation Admin)
+        Property::create([
+            'owner_id' => $owner->id,
+            'title' => 'Appartement Cosy Bastos',
+            'description' => 'Appartement meublé idéal pour court séjour.',
+            'type' => 'Appartement',
+            'price' => 45000,
+            'address' => 'Avenue Rosa Parks',
+            'city' => 'Yaoundé',
+            'bedrooms' => 2,
+            'bathrooms' => 1,
+            'area' => 85,
+            'status' => 'available', // En attente de modération
         ]);
     }
 }

@@ -26,8 +26,7 @@ return new class extends Migration
             $table->integer('bathrooms')->default(0);
             //superficie
             $table->decimal('area', 8, 2);
-            $table->enum('status', ['available', 'rented', 'sold'])->default('available');
-            //il s'agit du schemin de limage principale
+$table->enum('status', ['available', 'pending', 'unavailable', 'rejected'])->default('pending');            //il s'agit du schemin de limage principale
             $table->string('image')->nullable();
             $table->timestamps();
         });
